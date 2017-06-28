@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Google map api key -->
+<!-- AIzaSyAQZam34JcxlXP2pxpZ066SesCNBSFH4fA -->
+	<title>Where on Earth?</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="assets/css/style.css" />
+	<link rel="shortcut icon" href="assets/images/planet_earth.ico" />
+	<script src="assets/js/jQuery.js"></script>
+	<script src="assets/js/main.js"></script>
+	<meta name="viewport" content="width=device-width">
+
+</head>
+
+<body>
+	<h1 id="mainTitle"><p>Where on Earth<span id="question">?</span></p></h1>
+	<!-- image -->
+	<div id="earthDiv">
+		<img id="planetImg" src="assets/images/big-earth.png" width="256" height="256">
+	</div>
+
+	<p class="description">Enter any geographic coordinates (latitude and longitude) to find out Where on Earth that location is.</p>
+
+
+<!-- latitude and longtitude input -->
+	<div id="input">
+		<form name="inputForm" action="/main.js" onsubmit="return processForm()" method="post">
+			<!-- latitude -->
+			<div id="latDiv">
+				<label>Latitude:</label>
+				<input id="latInput" type="text"  placeholder="latitude">
+			</div>
+
+			<!-- longtitude -->
+			<div id="longDiv">
+				<label>Longtitude:</label>
+				<input id="longInput" type="text"  placeholder="longtitude">
+			</div>
+
+			<!-- Button -->
+			<div class="actions">
+				<input id="submit" class="button" type="button" value=" Find... ">
+			</div>
+		</form>
+	</div>
+
+	<!-- output -->
+	<div id="output">
+		<label>The location is: </label>
+
+		<p id="result"></p>
+	</div>
+
+	<!-- where map goes -->
+	<div id="map"></div>
+
+<!-- footre -->
+<footer id="footer">
+	<p class="copyright">&copy; Sina Karachiani 2017</p>
+</footer>
+
+
+<script>
+	var output = "";
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 3,
+          center: {lat: 20, lng: 0}
+        });
+        var geocoder = new google.maps.Geocoder;
+        var infowindow = new google.maps.InfoWindow;
+
+        document.getElementById('submit').addEventListener('click', function() {
+          geocodeLatLng(geocoder, map, infowindow);
+        });
+      }
+
+      function geocodeLatLng(geocoder, map, infowindow) {
+        var latlng = {lat: parseFloat(document.getElementById('latInput').value), lng: parseFloat(document.getElementById('longInput').value)};
+        geocoder.geocode({'location': latlng}, function(results, status) {
+          if (status === 'OK') {
+            if (results[1]) {
+              map.setCenter(latlng);
+              map.setZoom(11);
+              var marker = new google.maps.Marker({
+                position: latlng,
+                map: map
+              });
+              infowindow.setContent(results[1].formatted_address);
+              infowindow.open(map, marker);
+              output = results[1].formatted_address;
+              console.log(output);
+              $("#result").append(output);
+              
+            } else {
+              window.alert('No results found');
+            }
+          } else {
+            window.alert('Geocoder failed due to: ' + status);
+          }
+        });
+      }
+
+      
+      
+    </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQZam34JcxlXP2pxpZ066SesCNBSFH4fA&callback=initMap" async defer></script>
+</body>
+</html>
