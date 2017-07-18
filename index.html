@@ -29,13 +29,13 @@
 			<!-- latitude -->
 			<div id="latDiv">
 				<label>Latitude:</label>
-				<input id="latInput" type="text"  placeholder="latitude">
+				<input id="latInput" type="text"  placeholder="34.0522° N">
 			</div>
 
 			<!-- longtitude -->
 			<div id="longDiv">
 				<label>Longtitude:</label>
-				<input id="longInput" type="text"  placeholder="longtitude">
+				<input id="longInput" type="text"  placeholder="118.2437° W">
 			</div>
 
 			<!-- Button -->
@@ -47,8 +47,6 @@
 
 	<!-- output -->
 	<div id="output">
-		<label>The location is: </label>
-
 		<p id="result"></p>
 	</div>
 
@@ -91,6 +89,7 @@
               infowindow.open(map, marker);
               output = results[1].formatted_address;
               console.log(output);
+              $("#output").prepend("The location is:<br>");
               $("#result").append(output);
               
             } else {
