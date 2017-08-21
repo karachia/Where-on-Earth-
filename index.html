@@ -47,7 +47,8 @@
 
 	<!-- output -->
 	<div id="output">
-		<p id="result"></p>
+	<p id="resultLabel"></p>
+	<p id="result"></p>
 	</div>
 
 	<!-- where map goes -->
@@ -89,8 +90,8 @@
               infowindow.open(map, marker);
               output = results[1].formatted_address;
               console.log(output);
-              $("#output").prepend("The location is:<br>");
-              $("#result").append(output);
+              $("#resultLabel").empty().prepend("The location is:<br>");        
+              $("#result").empty().append(output);
               
             } else {
               window.alert('No results found');
